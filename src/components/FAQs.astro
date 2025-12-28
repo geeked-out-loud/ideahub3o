@@ -1,0 +1,99 @@
+---
+interface FAQ { q: string; a: string }
+
+const { faqs } = Astro.props as { faqs?: FAQ[] };
+
+// Template FAQs shown when no props provided
+const templateFaqs: FAQ[] = [
+  { 
+    q: 'Question goes here?', 
+    a: 'Answer to the question goes here. Replace with your actual FAQ content.' 
+  }
+];
+
+const displayFaqs = faqs ?? templateFaqs;
+---
+
+<section aria-labelledby="faqs-heading" class="py-16">
+  <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-10">
+    <div class="flex-1">
+      <h2 id="faqs-heading" class="text-3xl font-bold tracking-tight">Frequently Asked Questions</h2>
+      <p class="mt-3 text-lg text-graphite-300">Find answers to common questions</p>
+    </div>
+    
+    <div class="w-full md:w-80 flex-shrink-0">
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-graphite-400">
+            <path d="m21 21-4.34-4.34"/>
+            <circle cx="11" cy="11" r="8"/>
+          </svg>
+        </div>
+        <input 
+          id="faq-search" 
+          type="search" 
+          placeholder="Search questions..." 
+          class="w-full pl-11 pr-4 py-3 rounded-lg border border-graphite-700/40 bg-transparent text-graphite-50 placeholder:text-graphite-500 focus:outline-none focus:border-primary-500/50 focus:ring-2 focus:ring-primary-500/20 transition-all" 
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="space-y-3" id="faq-list">
+    {displayFaqs.map((f, idx) => (
+      <details class="group border border-graphite-700/30 rounded-lg overflow-hidden hover:border-primary-500/30 transition-all duration-300" open={idx === 0}>
+        <summary class="flex items-center justify-between gap-4 p-5 cursor-pointer list-none bg-transparent hover:bg-graphite-800/20 transition-colors">
+          <span class="text-base font-medium text-graphite-50 group-hover:text-primary-200 transition-colors">{f.q}</span>
+          <svg class="w-5 h-5 text-primary-400 flex-shrink-0 transition-transform duration-300 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <div class="px-5 pb-5 pt-0">
+          <p class="text-graphite-300 leading-relaxed">{f.a}</p>
+        </div>
+      </details>
+    ))}
+  </div>
+
+  <script type="module">
+    const input = document.getElementById('faq-search');
+    const items = Array.from(document.querySelectorAll('#faq-list details'));
+    
+    if(input){
+      input.addEventListener('input', (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        
+        if(!query){ 
+          items.forEach(d => {
+            d.hidden = false;
+            d.style.opacity = '1';
+          }); 
+          return; 
+        }
+        
+        items.forEach(d => {
+          const text = (d.querySelector('summary span').textContent + ' ' + d.querySelector('div p').textContent).toLowerCase();
+          const matches = text.includes(query);
+          
+          if(matches){
+            d.hidden = false;
+            d.style.opacity = '1';
+          } else {
+            d.style.opacity = '0';
+            setTimeout(() => { if(d.style.opacity === '0') d.hidden = true; }, 200);
+          }
+        });
+      });
+    }
+  </script>
+</section>
+
+<style>
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+  
+  details {
+    transition: opacity 0.2s ease;
+  }
+</style>

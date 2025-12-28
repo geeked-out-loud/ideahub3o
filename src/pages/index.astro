@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Schedule from "../components/Schedule.astro";
+import Rules from "../components/Rules.astro";
+import FAQs from "../components/FAQs.astro";
+---
+
+<BaseLayout title="Hackathon 2026">
+  <section id="schedule" class="pb-6 section-scroll">
+    <div class="max-w-4xl mx-auto">
+      <Hero />
+    </div>
+  </section>
+
+  <section id="schedule" class="pb-6 section-scroll">
+    <div class="max-w-4xl mx-auto">
+      <Schedule />
+  	  <!--- eyebrow, title, lead, ctas --->
+    </div>
+  </section>
+
+  <section id="rules" class="py-6 section-scroll">
+    <div class="max-w-4xl mx-auto">
+      <Rules />
+	  <!--- 
+	  rules: array of rule objects with title, description, and icon
+	  for PDF: showPdf={true} pdfUrl="/hackathon-rules.pdf" 
+	  --->
+    </div>
+  </section>
+
+  <section id="faqs" class="py-6 section-scroll">
+    <div class="max-w-4xl mx-auto">
+      <FAQs />
+	  <!--- faqs: array of faq objects with question and answer 
+		faqs={[
+			{ q: 'Question?', a: 'Answer here.' },
+			{ q: 'Another question?', a: 'Another answer here.' }
+		]}
+	  --->
+    </div>
+  </section>
+</BaseLayout>

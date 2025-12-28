@@ -1,0 +1,158 @@
+---
+---
+
+<!-- Main Navigation Bar -->
+<nav class="fixed w-full top-0 left-0 bg-graphite-900/95 backdrop-blur z-50 border-b border-graphite-800">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="#home" class="text-xl font-bold text-graphite-100 hover:text-primary-400 transition">
+        Hackathon'26
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="#home" class="text-graphite-200 hover:text-primary-400 transition text-sm font-medium">Home</a>
+        <a href="#schedule" class="text-graphite-200 hover:text-primary-400 transition text-sm font-medium">Schedule</a>
+        <a href="#rules" class="text-graphite-200 hover:text-primary-400 transition text-sm font-medium">Rules</a>
+        <a href="#faqs" class="text-graphite-200 hover:text-primary-400 transition text-sm font-medium">FAQs</a>
+        <a href="#contact" class="text-graphite-200 hover:text-primary-400 transition text-sm font-medium">Contact</a>
+        <a href="#register" class="bg-primary-600 hover:bg-primary-700 text-graphite-900 px-5 py-2 rounded-lg font-semibold transition shadow-lg shadow-primary-600/20">
+          Register
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button 
+        type="button"
+        class="md:hidden relative w-10 h-10 text-graphite-100 focus:outline-none"
+        aria-label="Toggle menu"
+        onclick="window.toggleMobileMenu()"
+      >
+        <span class="sr-only">Open menu</span>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <span class="block w-6 h-0.5 bg-current mb-1.5"></span>
+          <span class="block w-6 h-0.5 bg-current mb-1.5"></span>
+          <span class="block w-6 h-0.5 bg-current"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Sidebar Overlay -->
+<div 
+  id="mobile-overlay" 
+  class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[998] opacity-0 invisible transition-all duration-300 md:hidden"
+  onclick="window.toggleMobileMenu()"
+></div>
+
+<!-- Mobile Sidebar -->
+<aside 
+  id="mobile-sidebar" 
+  class="fixed top-0 right-0 h-full w-80 bg-graphite-900 z-[999] transform translate-x-full transition-transform duration-300 ease-in-out md:hidden shadow-2xl"
+>
+  <div class="flex flex-col h-full">
+    <!-- Sidebar Header -->
+    <div class="flex items-center justify-between p-6 border-b border-graphite-800">
+      <span class="text-xl font-bold text-graphite-100">Menu</span>
+      <button 
+        type="button"
+        class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-graphite-800 text-graphite-100 transition"
+        aria-label="Close menu"
+        onclick="window.toggleMobileMenu()"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="flex-1 overflow-y-auto p-6">
+      <ul class="space-y-2">
+        <li>
+          <a href="#home" class="mobile-link block py-3 px-4 text-graphite-100 hover:bg-graphite-800 rounded-lg transition font-medium">
+            Home
+          </a>
+        </li>
+        <li>
+          <a href="#schedule" class="mobile-link block py-3 px-4 text-graphite-100 hover:bg-graphite-800 rounded-lg transition font-medium">
+            Schedule
+          </a>
+        </li>
+        <li>
+          <a href="#rules" class="mobile-link block py-3 px-4 text-graphite-100 hover:bg-graphite-800 rounded-lg transition font-medium">
+            Rules
+          </a>
+        </li>
+        <li>
+          <a href="#faqs" class="mobile-link block py-3 px-4 text-graphite-100 hover:bg-graphite-800 rounded-lg transition font-medium">
+            FAQs
+          </a>
+        </li>
+        <li>
+          <a href="#contact" class="mobile-link block py-3 px-4 text-graphite-100 hover:bg-graphite-800 rounded-lg transition font-medium">
+            Contact
+          </a>
+        </li>
+        <li class="pt-4">
+          <a href="#register" class="mobile-link block py-3 px-4 bg-primary-600 hover:bg-primary-700 text-graphite-900 rounded-lg text-center font-bold transition shadow-lg">
+            Register Now
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="p-6 border-t border-graphite-800">
+      <p class="text-xs text-graphite-400 text-center">
+        © 2026 Echelon Hackathon
+      </p>
+    </div>
+  </div>
+</aside>
+
+<script is:inline>
+  // Mobile menu toggle function
+  window.toggleMobileMenu = function() {
+    const sidebar = document.getElementById('mobile-sidebar');
+    const overlay = document.getElementById('mobile-overlay');
+    
+    if (!sidebar || !overlay) return;
+    
+    const isOpen = !sidebar.classList.contains('translate-x-full');
+    
+    if (isOpen) {
+      // Close menu
+      sidebar.classList.add('translate-x-full');
+      overlay.classList.add('opacity-0', 'invisible');
+      document.body.style.overflow = '';
+    } else {
+      // Open menu
+      sidebar.classList.remove('translate-x-full');
+      overlay.classList.remove('opacity-0', 'invisible');
+      document.body.style.overflow = 'hidden';
+    }
+  };
+
+  // Close menu when clicking links
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        window.toggleMobileMenu();
+      });
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const sidebar = document.getElementById('mobile-sidebar');
+        if (sidebar && !sidebar.classList.contains('translate-x-full')) {
+          window.toggleMobileMenu();
+        }
+      }
+    });
+  });
+</script>

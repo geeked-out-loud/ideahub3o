@@ -1,0 +1,38 @@
+---
+import ScheduleItem from './ScheduleItem.astro';
+
+interface ScheduleEntry { time: string; title: string; description?: string; location?: string; details?: string }
+
+const { items } = Astro.props as { items?: ScheduleEntry[] };
+
+// Template entry shown when no items provided
+const templateItems: ScheduleEntry[] = [
+  { 
+    time: 'Mon DD — HH:MM', 
+    title: 'Event Title', 
+    description: 'Brief description of the event or activity. Replace with your actual schedule.', 
+    location: 'Location Name', 
+    details: 'Additional details about the event (optional).' 
+  }
+];
+
+const displayItems = items ?? templateItems;
+---
+
+<section aria-labelledby="schedule-heading" class="py-16">
+  <div class="mb-8">
+    <h2 id="schedule-heading" class="text-3xl font-bold tracking-tight">Schedule</h2>
+    <p class="mt-3 text-lg text-graphite-300">48 hours of building, learning, and shipping</p>
+  </div>
+
+  <div class="mt-10 relative">
+    <!-- Enhanced vertical line with gradient -->
+    <div class="hidden md:block absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-500/20 via-primary-500/40 to-primary-500/20"></div>
+
+    <div class="space-y-8">
+      {displayItems.map(item => (
+        <ScheduleItem {...item} />
+      ))}
+    </div>
+  </div>
+</section>
