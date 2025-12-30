@@ -1,8 +1,8 @@
 ---
 import "../styles/tailwind.css";
-import Nav from "../components/Nav.astro";
-import Footer from "../components/Footer.astro";
-import Background from "../components/Background.astro";
+import Nav from "../components/layout/Nav.astro";
+import Footer from "../components/layout/Footer.astro";
+import Background from "../components/layout/Background.astro";
 const { title = "Echelon Hackathon" } = Astro.props;
 ---
 
@@ -23,9 +23,7 @@ const { title = "Echelon Hackathon" } = Astro.props;
         <slot />
       </main>
       <Footer   contacts={[
-        { name: 'John Doe', email: 'john@example.com' },
-        { name: 'Jane Smith', email: 'jane@example.com' },
-        { name: 'Jacob Donalds', email: 'jacob@example.com' }
+        { name: 'Shubhan Singh', email: 'geekedoutloud04@gmail.com' }
       ]}/>
       <!--- 
       contacts={[

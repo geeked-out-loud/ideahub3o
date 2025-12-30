@@ -25,29 +25,38 @@ if(target){
 }
 ---
 
-<div id={uid} class="rounded-lg border border-graphite-700/30 p-4" data-target={target ?? undefined}>
-  <div class="text-sm text-graphite-200">{label}</div>
+<div id={uid} class="rounded-lg border border-primary-500/20 bg-graphite-800/30 p-4" data-target={target ?? undefined}>
+  <div class="text-xs text-primary-300/80 mb-3 uppercase tracking-wide">{label}</div>
 
-  <div class="mt-3 grid grid-cols-4 gap-2 text-center" data-countdown>
-    <div>
-      <div class="text-2xl font-semibold" data-unit="days">{initial.days}</div>
-      <div class="text-xs small-muted">Days</div>
+  <div class="flex items-baseline justify-between" data-countdown>
+    <div class="text-center">
+      <div class="text-3xl font-bold text-white tabular-nums" data-unit="days">{initial.days}</div>
+      <div class="text-[10px] text-graphite-400 uppercase tracking-wide mt-1">Days</div>
     </div>
-    <div>
-      <div class="text-2xl font-semibold" data-unit="hours">{initial.hours}</div>
-      <div class="text-xs small-muted">Hours</div>
+    
+    <div class="text-2xl font-bold text-primary-400/30 px-1">:</div>
+    
+    <div class="text-center">
+      <div class="text-3xl font-bold text-white tabular-nums" data-unit="hours">{initial.hours}</div>
+      <div class="text-[10px] text-graphite-400 uppercase tracking-wide mt-1">Hours</div>
     </div>
-    <div>
-      <div class="text-2xl font-semibold" data-unit="minutes">{initial.minutes}</div>
-      <div class="text-xs small-muted">Minutes</div>
+    
+    <div class="text-2xl font-bold text-primary-400/30 px-1">:</div>
+    
+    <div class="text-center">
+      <div class="text-3xl font-bold text-white tabular-nums" data-unit="minutes">{initial.minutes}</div>
+      <div class="text-[10px] text-graphite-400 uppercase tracking-wide mt-1">Min</div>
     </div>
-    <div>
-      <div class="text-2xl font-semibold" data-unit="seconds">{initial.seconds}</div>
-      <div class="text-xs small-muted">Seconds</div>
+    
+    <div class="text-2xl font-bold text-primary-400/30 px-1">:</div>
+    
+    <div class="text-center">
+      <div class="text-3xl font-bold text-white tabular-nums" data-unit="seconds">{initial.seconds}</div>
+      <div class="text-[10px] text-graphite-400 uppercase tracking-wide mt-1">Sec</div>
     </div>
   </div>
 
-  <div class="sr-only" aria-live="polite" data-countdown-live>{target ? 'Countdown time remaining' : 'Countdown not set'}</div>
+  <div class="sr-only" aria-live="polite" data-countdown-live>{liveText}</div>
 </div>
 
 <script is:inline define:vars={{ uid, target }}>

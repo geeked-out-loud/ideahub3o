@@ -1,5 +1,5 @@
 /**
- * Central theme color tokens for Echelon 26.
+ * Central theme color tokens.
  * Exported as CommonJS so it can be consumed by Tailwind config and build tooling.
  * Keep palettes muted, pastel, and natural as requested.
  */
@@ -47,18 +47,18 @@ module.exports = {
     900: '#273445',
   },
 
-  // Warm sand (soft, warm neutral)
+  // Warm sand (soft peachy-sand pastel)
   warmSand: {
-    50: '#fbf7f2',
-    100: '#f7efe6',
-    200: '#f0e4d2',
-    300: '#e8d6bb',
-    400: '#dfc7a1',
-    500: '#d6b38a',
-    600: '#b8906f',
-    700: '#8f6c54',
-    800: '#614836',
-    900: '#3d2e24',
+    50: '#fef8f3',
+    100: '#fdf1e8',
+    200: '#fae3d2',
+    300: '#f5d2ba',
+    400: '#edbf9c',
+    500: '#e1a87f',
+    600: '#c58d66',
+    700: '#a0704f',
+    800: '#745138',
+    900: '#4d3525',
   },
 
   // Muted rose (subtle accent)

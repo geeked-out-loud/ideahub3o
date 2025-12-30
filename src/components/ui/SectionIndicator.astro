@@ -1,0 +1,195 @@
+---
+---
+
+<div class="relative">
+  <!-- Section Indicator Button -->
+  <button 
+    type="button"
+    id="section-indicator" 
+    class="relative w-full rounded-full border border-white/[0.08] px-3 sm:px-4 md:px-6 py-3 flex items-center justify-between transition-opacity duration-300 overflow-hidden"
+    aria-expanded="false"
+    aria-haspopup="true"
+  >
+    <div class="absolute inset-0 bg-graphite-900/40 backdrop-blur-2xl -z-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-primary-400/[0.05] via-transparent to-primary-600/[0.05] rounded-full pointer-events-none"></div>
+    <span class="text-xs sm:text-sm font-semibold text-primary-100 truncate flex-1 text-center" id="section-label">
+      Home
+    </span>
+    <svg id="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 text-primary-300/60 transition-transform duration-200">
+      <path d="m6 9 6 6 6-6"/>
+    </svg>
+  </button>
+
+  <!-- Dropdown Menu -->
+  <div 
+    id="section-dropdown"
+    class="absolute top-full left-0 right-0 mt-4 opacity-0 invisible transition-all duration-200 pointer-events-none"
+  >
+    <div class="relative bg-graphite-900/95 rounded-2xl border border-white/[0.08] shadow-2xl shadow-black/60 overflow-hidden">
+      <!-- Links -->
+      <nav class="relative py-2">
+        <a href="#home" class="dropdown-link block px-4 py-2.5 text-sm font-semibold text-white/80 hover:text-primary-100 hover:bg-primary-500/[0.08] transition-colors duration-200">
+          Home
+        </a>
+        <a href="#schedule" class="dropdown-link block px-4 py-2.5 text-sm font-semibold text-white/80 hover:text-primary-100 hover:bg-primary-500/[0.08] transition-colors duration-200">
+          Schedule
+        </a>
+        <a href="#prizes" class="dropdown-link block px-4 py-2.5 text-sm font-semibold text-white/80 hover:text-primary-100 hover:bg-primary-500/[0.08] transition-colors duration-200">
+          Prizes
+        </a>
+        <a href="#rules" class="dropdown-link block px-4 py-2.5 text-sm font-semibold text-white/80 hover:text-primary-100 hover:bg-primary-500/[0.08] transition-colors duration-200">
+          Rules
+        </a>
+        <a href="#faqs" class="dropdown-link block px-4 py-2.5 text-sm font-semibold text-white/80 hover:text-primary-100 hover:bg-primary-500/[0.08] transition-colors duration-200">
+          FAQs
+        </a>
+        <a href="#contact" class="dropdown-link block px-4 py-2.5 text-sm font-semibold text-white/80 hover:text-primary-100 hover:bg-primary-500/[0.08] transition-colors duration-200">
+          Contact
+        </a>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<script>
+  const sections = [
+    { id: 'home', label: 'Home' },
+    { id: 'schedule', label: 'Schedule' },
+    { id: 'prizes', label: 'Prizes' },
+    { id: 'rules', label: 'Rules' },
+    { id: 'faqs', label: 'FAQs' },
+    { id: 'contact', label: 'Contact' }
+  ];
+
+  let currentLabel = 'Home';
+  let isDropdownOpen = false;
+
+  function updateLabel(sectionId: string, animate = true) {
+    const section = sections.find(s => s.id === sectionId);
+    if (!section || section.label === currentLabel) return;
+
+    const label = document.getElementById('section-label');
+    const indicator = document.getElementById('section-indicator');
+    if (!label) return;
+
+    currentLabel = section.label;
+
+    if (animate) {
+      indicator?.classList.add('opacity-0');
+      setTimeout(() => {
+        label.textContent = section.label;
+        indicator?.classList.remove('opacity-0');
+      }, 150);
+    } else {
+      label.textContent = section.label;
+    }
+  }
+
+  function toggleDropdown() {
+    const dropdown = document.getElementById('section-dropdown');
+    const chevron = document.getElementById('chevron-icon');
+    const button = document.getElementById('section-indicator');
+    
+    if (!dropdown || !chevron || !button) return;
+
+    isDropdownOpen = !isDropdownOpen;
+
+    if (isDropdownOpen) {
+      dropdown.classList.remove('opacity-0', 'invisible', 'pointer-events-none');
+      dropdown.classList.add('opacity-100', 'visible');
+      chevron.style.transform = 'rotate(180deg)';
+      button.setAttribute('aria-expanded', 'true');
+    } else {
+      dropdown.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+      dropdown.classList.remove('opacity-100', 'visible');
+      chevron.style.transform = 'rotate(0deg)';
+      button.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  function closeDropdown() {
+    const dropdown = document.getElementById('section-dropdown');
+    const chevron = document.getElementById('chevron-icon');
+    const button = document.getElementById('section-indicator');
+    
+    if (!dropdown || !chevron || !button) return;
+
+    isDropdownOpen = false;
+    dropdown.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+    dropdown.classList.remove('opacity-100', 'visible');
+    chevron.style.transform = 'rotate(0deg)';
+    button.setAttribute('aria-expanded', 'false');
+  }
+
+  function init() {
+    // Check initial hash
+    const hash = window.location.hash.slice(1);
+    if (hash) updateLabel(hash, false);
+
+    // Setup intersection observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.target.id) {
+          updateLabel(entry.target.id);
+        }
+      });
+    }, {
+      rootMargin: '-20% 0px -60% 0px',
+      threshold: 0
+    });
+
+    // Observe all sections
+    sections.forEach(({ id }) => {
+      const el = document.querySelector(`#${id}`);
+      if (el) observer.observe(el);
+    });
+
+    // Handle hash changes
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash.slice(1);
+      if (hash) updateLabel(hash);
+    });
+
+    // Toggle dropdown on click
+    const indicator = document.getElementById('section-indicator');
+    indicator?.addEventListener('click', toggleDropdown);
+
+    // Close dropdown when clicking links
+    const dropdownLinks = document.querySelectorAll('.dropdown-link');
+    dropdownLinks.forEach(link => {
+      link.addEventListener('click', closeDropdown);
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      const dropdown = document.getElementById('section-dropdown');
+      const indicator = document.getElementById('section-indicator');
+      if (isDropdownOpen && dropdown && indicator && !indicator.contains(e.target as Node) && !dropdown.contains(e.target as Node)) {
+        closeDropdown();
+      }
+    });
+
+    // Close dropdown on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isDropdownOpen) {
+        closeDropdown();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>
+
+<style>
+  #section-indicator:active {
+    transform: scale(0.95);
+  }
+
+  #chevron-icon {
+    transition: transform 200ms ease-out;
+  }
+</style>
